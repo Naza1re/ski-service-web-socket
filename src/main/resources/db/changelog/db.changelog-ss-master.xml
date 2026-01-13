@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+           http://www.liquibase.org/xml/ns/dbchangelog
+           https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+        <changeSet author="NBachishche" id="01-queue-ticket.sql">
+            <sqlFile path="db/changelog/migrations/schema/queue-ticket.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="02-client.sql">
+            <sqlFile path="db/changelog/migrations/schema/client.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="03-equipment-type.sql">
+            <sqlFile path="db/changelog/migrations/schema/equipment-type.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="04-equipments.sql">
+            <sqlFile path="db/changelog/migrations/schema/equipments.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="05-rental-order.sql">
+            <sqlFile path="db/changelog/migrations/schema/rental-order.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="06-rental-order-items.sql">
+            <sqlFile path="db/changelog/migrations/schema/rental-order-item.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="07-ski-pass.sql">
+            <sqlFile path="db/changelog/migrations/schema/skipass.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+</databaseChangeLog>
