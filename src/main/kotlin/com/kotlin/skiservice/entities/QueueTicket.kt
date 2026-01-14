@@ -2,8 +2,6 @@ package com.kotlin.skiservice.entities
 
 import jakarta.persistence.*
 
-import jakarta.persistence.*
-
 @Entity
 @Table(name = "queue_ticket")
 class QueueTicket(

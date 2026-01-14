@@ -7,12 +7,12 @@ import jakarta.persistence.*
 class Client(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private val id: Long? = null,
-    private val fullName: String,
-    private val height: Int,
-    private val weight: Int,
-    private val shoeSize: Int,
-    private val skillLevel: String,
+    var id: Long? = null,
+    val fullName: String,
+    val height: Int,
+    val weight: Int,
+    val shoeSize: Int,
+    val skillLevel: String,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "queue_ticket_id")
