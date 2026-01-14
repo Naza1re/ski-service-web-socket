@@ -14,5 +14,5 @@ class QueueTicket(
     val ticketNumber: Int,
 
     @Column(nullable = false)
-    val status: String
+    var status: String
 )

@@ -15,9 +15,9 @@ class Equipment(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "equipment_type_id", nullable = false)
-    val type: EquipmentType,
+    val type: EquipmentType? = null,
 
-    val size: String?,
+    val size: String,
 
     @Column(nullable = false)
     var status: String
