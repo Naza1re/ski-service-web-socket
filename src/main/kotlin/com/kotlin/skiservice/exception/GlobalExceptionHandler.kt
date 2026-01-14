@@ -1,0 +1,24 @@
+package com.kotlin.skiservice.exception
+
+import org.hibernate.grammars.hql.HqlLexer.CONFLICT
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
+
+@RestControllerAdvice
+class GlobalExceptionHandler {
+
+
+    @ExceptionHandler(ClientNotFoundException::class, EquipmentNotFoundException::class)
+    fun handleNotFoundException(e: RuntimeException): ResponseEntity<ApplicationError> {
+        val errorMessage = e.localizedMessage
+        return ResponseEntity(ApplicationError(errorMessage, "NOT_FOUND"), HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(EquipmentAlreadyExistException::class)
+    fun handleConflictException(e: RuntimeException): ResponseEntity<ApplicationError> {
+        val errorMessage = e.localizedMessage
+        return ResponseEntity(ApplicationError(errorMessage, "CONFLICT"), HttpStatus.CONFLICT)
+    }
+}

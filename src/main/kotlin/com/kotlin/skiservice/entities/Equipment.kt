@@ -8,7 +8,7 @@ class Equipment(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    var id: Long = 0,
 
     @Column(nullable = false, unique = true)
     val barcode: String,
@@ -20,5 +20,5 @@ class Equipment(
     val size: String?,
 
     @Column(nullable = false)
-    val status: String
+    var status: String
 )
