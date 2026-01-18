@@ -3,6 +3,7 @@ package com.kotlin.skiservice.service
 import com.kotlin.skiservice.dto.equipment.EquipmentRequest
 import com.kotlin.skiservice.dto.equipment.EquipmentResponse
 import com.kotlin.skiservice.entities.Equipment
+import com.kotlin.skiservice.entities.EquipmentType
 import org.springframework.data.domain.Page
 
 interface EquipmentService {

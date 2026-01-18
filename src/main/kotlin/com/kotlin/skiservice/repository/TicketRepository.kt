@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import java.util.Optional
 
 @Repository
 interface TicketRepository : JpaRepository<QueueTicket, Long> {
@@ -17,4 +18,6 @@ interface TicketRepository : JpaRepository<QueueTicket, Long> {
 
     @Query("SELECT q FROM QueueTicket q WHERE q.status = 'IN_PROCESS' ORDER BY q.ticketNumber DESC")
     fun findCurrentTicket(pageable: PageRequest): QueueTicket?
+
+    fun findByTicketNumber(ticketNumber: Int): Optional<QueueTicket>
 }

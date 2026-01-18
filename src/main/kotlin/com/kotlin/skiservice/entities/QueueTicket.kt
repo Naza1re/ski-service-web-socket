@@ -9,7 +9,7 @@ class QueueTicket(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
+    val id: Long? = null,
 
     @Column(name = "ticket_number", nullable = false)
     val ticketNumber: Int,

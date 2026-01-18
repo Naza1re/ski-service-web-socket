@@ -4,6 +4,7 @@ import com.kotlin.skiservice.entities.QueueTicket
 import com.kotlin.skiservice.entities.status.QueueTicketStatus
 import com.kotlin.skiservice.entities.status.QueueTicketStatus.IN_PROCESS
 import com.kotlin.skiservice.exception.QueueException
+import com.kotlin.skiservice.exception.TicketNotFoundException
 import com.kotlin.skiservice.queue.dto.QueueResponse
 import com.kotlin.skiservice.queue.service.QueueService
 import com.kotlin.skiservice.repository.TicketRepository
@@ -54,6 +55,20 @@ class QueueServiceImpl(
     @Transactional
     override fun deleteQueue() {
         return ticketRepository.deleteAll()
+    }
+
+    @Transactional(readOnly = true)
+    override fun getByTicketNumber(ticketNUmber: Int): QueueTicket {
+        return getOrThrow(ticketNUmber)
+    }
+
+    private fun getOrThrow(ticketNumber: Int): QueueTicket {
+        val queueTicket = ticketRepository.findByTicketNumber(ticketNumber)
+        if (queueTicket.isPresent) {
+            return queueTicket.get()
+        } else {
+            throw TicketNotFoundException("Ticket with number $ticketNumber not found")
+        }
     }
 
     private fun getNext() : QueueTicket {

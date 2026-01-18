@@ -6,5 +6,5 @@ data class ClientRequest(
     val weight: Int,
     val shoeSize: Int,
     val skillLevel: String,
-    val ticketNumber: String
+    val ticketNumber: Int
 )

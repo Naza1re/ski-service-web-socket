@@ -13,7 +13,9 @@ class GlobalExceptionHandler {
     @ExceptionHandler(ClientNotFoundException::class,
         EquipmentNotFoundException::class,
         RentalOrderItemNotFoundException::class,
-        EquipmentNotFoundException::class,)
+        EquipmentNotFoundException::class,
+        EquipmentTypeNotFoundException::class,
+        TicketNotFoundException::class)
     fun handleNotFoundException(e: RuntimeException): ResponseEntity<ApplicationError> {
         val errorMessage = e.localizedMessage
         return ResponseEntity(ApplicationError(errorMessage, "NOT_FOUND"), HttpStatus.NOT_FOUND)

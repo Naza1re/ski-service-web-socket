@@ -9,6 +9,7 @@ import com.kotlin.skiservice.exception.EquipmentNotFoundException
 import com.kotlin.skiservice.mapper.EquipmentMapper
 import com.kotlin.skiservice.repository.EquipmentRepository
 import com.kotlin.skiservice.service.EquipmentService
+import com.kotlin.skiservice.service.EquipmentTypeService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -18,7 +19,8 @@ import java.util.*
 @Service
 class EquipmentServiceImpl(
     private val equipmentRepository: EquipmentRepository,
-    private val equipmentMapper: EquipmentMapper
+    private val equipmentMapper: EquipmentMapper,
+    private val equipmentTypeService: EquipmentTypeService
 ) : EquipmentService {
     override fun getPageOfEquipment(page: Int, size: Int): Page<Equipment> {
         val pageRequest = PageRequest.of(page, size)
@@ -27,18 +29,25 @@ class EquipmentServiceImpl(
 
     @Transactional
     override fun createEquipment(equipmentRequest: EquipmentRequest): EquipmentResponse {
-        val equipment = findEquipmentByBarCode(equipmentRequest.barcode)
+        val equipment = findEquipmentByBarCode(equipmentRequest.barCode)
 
         if (equipment.isPresent) {
-            throw EquipmentAlreadyExistException("Equipment with bar code : ${equipment.get().barcode} already exist")
+            throw EquipmentAlreadyExistException("Equipment with bar code : ${equipment.get().barCode} already exist")
         }
 
-        val equipmentToSave = equipmentMapper.toModel(equipmentRequest)
-        equipmentToSave.status = EquipmentStatus.NOT_IN_USE
+        val equipmentType = equipmentTypeService.findEquipmentType(equipmentRequest.type)
+
+        val equipmentToSave = Equipment(
+            barCode = equipmentRequest.barCode,
+            size = equipmentRequest.size,
+            status = EquipmentStatus.NOT_IN_USE,
+            type = equipmentType
+        )
         val savedEquipment = equipmentRepository.save(equipmentToSave)
 
         return equipmentMapper.toResponse(savedEquipment)
     }
+
 
     @Transactional
     override fun deleteEquipment(barCode: String): EquipmentResponse {
@@ -68,7 +77,7 @@ class EquipmentServiceImpl(
     }
 
     private fun findEquipmentByBarCode(code: String): Optional<Equipment> {
-        return equipmentRepository.findByBarcode(code)
+        return equipmentRepository.findByBarCode(code)
     }
 
     private fun getOrThrow(barCode: String): Equipment {

@@ -49,8 +49,8 @@ class RentalOrderItemServiceImpl(
         val rentalOrderItems = rentalOrderItemRepository.findAllByRentalOrderId(rentalOrderId)
 
         val rentalOrderItemList = rentalOrderItems.map { roi ->
-            RentalOrderItemResponse(roi.equipment.type.toString(),
-                roi.equipment.barcode)
+            RentalOrderItemResponse(roi.equipment.type.name,
+                roi.equipment.barCode)
         }.toMutableList()
 
         val rentalOrderListResponse = RentalOrderItemListResponse(

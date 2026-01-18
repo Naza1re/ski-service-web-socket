@@ -9,18 +9,19 @@ class Equipment(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0,
+    var id: Long? = null,
 
     @Column(nullable = false, unique = true)
-    val barcode: String,
+    val barCode: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "equipment_type_id", nullable = false)
-    val type: EquipmentType? = null,
+    var type: EquipmentType,
 
     val size: String,
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    var status: EquipmentStatus? = null
+    var status: EquipmentStatus = EquipmentStatus.NOT_IN_USE
+
 )

@@ -10,8 +10,9 @@ import org.mapstruct.Mapping
 interface EquipmentMapper {
 
     @Mapping(target = "type", ignore = true)
+    @Mapping(target = "status", constant = "NOT_IN_USE")
     fun toModel(equipmentRequest: EquipmentRequest): Equipment
 
-    @Mapping(target = "type", ignore = true)
+    @Mapping(target = "type", source = "type.name")
     fun toResponse(equipment: Equipment): EquipmentResponse
 }

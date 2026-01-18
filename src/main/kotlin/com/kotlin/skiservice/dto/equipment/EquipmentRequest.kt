@@ -1,7 +1,7 @@
 package com.kotlin.skiservice.dto.equipment
 
 data class EquipmentRequest(
-    val barcode: String,
-    val type: String,
+    val barCode: String,
+    val type: Long,
     val size: String
 )

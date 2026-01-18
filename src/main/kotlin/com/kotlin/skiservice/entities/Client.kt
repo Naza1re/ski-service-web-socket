@@ -16,6 +16,6 @@ class Client(
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "queue_ticket_id")
-    val queueTicket: QueueTicket?
+    var queueTicket: QueueTicket?
 ) {
 }

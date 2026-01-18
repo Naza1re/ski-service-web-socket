@@ -5,6 +5,7 @@ import com.kotlin.skiservice.dto.client.ClientResponse
 import com.kotlin.skiservice.entities.Client
 import com.kotlin.skiservice.exception.ClientNotFoundException
 import com.kotlin.skiservice.mapper.ClientMapper
+import com.kotlin.skiservice.queue.service.QueueService
 import com.kotlin.skiservice.repository.ClientRepository
 import com.kotlin.skiservice.service.ClientService
 import org.springframework.stereotype.Service
@@ -13,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class ClientServiceImpl(
     private val clientRepository : ClientRepository,
-    private val clientMapper: ClientMapper
+    private val clientMapper: ClientMapper,
+    private val queueService: QueueService,
 ) : ClientService {
 
     @Transactional(readOnly = true)
@@ -24,7 +26,9 @@ class ClientServiceImpl(
 
     @Transactional
     override fun createClient(clientRequest: ClientRequest): ClientResponse {
+        val queueTicket = queueService.getByTicketNumber(clientRequest.ticketNumber)
         val clientToSave = clientMapper.toModel(clientRequest)
+        clientToSave.queueTicket = queueTicket
         val savedClient = clientRepository.save(clientToSave)
         return clientMapper.toResponse(savedClient)
     }

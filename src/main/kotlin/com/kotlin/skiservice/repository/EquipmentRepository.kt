@@ -7,5 +7,5 @@ import java.util.Optional
 
 @Repository
 interface EquipmentRepository : JpaRepository<Equipment, Int> {
-    fun findByBarcode(barCode: String): Optional<Equipment>
+    fun findByBarCode(barCode: String): Optional<Equipment>
 }
