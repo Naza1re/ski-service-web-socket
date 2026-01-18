@@ -1,4 +1,4 @@
-package com.kotlin.skiservice.queue.configuration
+package com.kotlin.skiservice.queue.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry

@@ -45,6 +45,16 @@ class ClientServiceImpl(
         return clientMapper.toResponse(savedClient)
     }
 
+    @Transactional(readOnly = true)
+    override fun getClientByTicketNumber(number: Long): Client {
+        val clientByTicket = clientRepository.findByQueueTicket(number)
+        if (clientByTicket.isPresent) {
+            return clientByTicket.get()
+        } else {
+            throw ClientNotFoundException("Client with ticket number $number not found")
+        }
+    }
+
     private fun getOrThrow(id: Long): Client {
         return clientRepository.findById(id).orElseThrow {
            ClientNotFoundException("Client was not found by id $id")

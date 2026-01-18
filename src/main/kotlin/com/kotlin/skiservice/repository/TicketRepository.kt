@@ -12,10 +12,9 @@ interface TicketRepository : JpaRepository<QueueTicket, Long> {
     @Query("SELECT MAX(t.ticketNumber) FROM QueueTicket t")
     fun findMaxTicketNumber(): Int?
 
-    @Query("SELECT q FROM QueueTicket q WHERE q.status = 'WAITING' ORDER BY q.ticketNumber ASC")
+    @Query("SELECT q FROM QueueTicket q WHERE q.status = 'IN_QUEUE' ORDER BY q.ticketNumber ASC")
     fun findNextWaitingTicket(pageable: PageRequest): QueueTicket?
 
-
-    @Query("SELECT q FROM QueueTicket q WHERE q.status = 'CALLED' ORDER BY q.ticketNumber DESC")
+    @Query("SELECT q FROM QueueTicket q WHERE q.status = 'IN_PROCESS' ORDER BY q.ticketNumber DESC")
     fun findCurrentTicket(pageable: PageRequest): QueueTicket?
 }

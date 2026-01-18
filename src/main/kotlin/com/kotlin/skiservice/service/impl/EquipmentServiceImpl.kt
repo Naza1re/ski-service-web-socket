@@ -3,6 +3,7 @@ package com.kotlin.skiservice.service.impl
 import com.kotlin.skiservice.dto.equipment.EquipmentRequest
 import com.kotlin.skiservice.dto.equipment.EquipmentResponse
 import com.kotlin.skiservice.entities.Equipment
+import com.kotlin.skiservice.entities.status.EquipmentStatus
 import com.kotlin.skiservice.exception.EquipmentAlreadyExistException
 import com.kotlin.skiservice.exception.EquipmentNotFoundException
 import com.kotlin.skiservice.mapper.EquipmentMapper
@@ -11,6 +12,7 @@ import com.kotlin.skiservice.service.EquipmentService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
@@ -23,6 +25,7 @@ class EquipmentServiceImpl(
         return equipmentRepository.findAll(pageRequest)
     }
 
+    @Transactional
     override fun createEquipment(equipmentRequest: EquipmentRequest): EquipmentResponse {
         val equipment = findEquipmentByBarCode(equipmentRequest.barcode)
 
@@ -31,12 +34,13 @@ class EquipmentServiceImpl(
         }
 
         val equipmentToSave = equipmentMapper.toModel(equipmentRequest)
-        equipmentToSave.status = "NEW"
+        equipmentToSave.status = EquipmentStatus.NOT_IN_USE
         val savedEquipment = equipmentRepository.save(equipmentToSave)
 
         return equipmentMapper.toResponse(savedEquipment)
     }
 
+    @Transactional
     override fun deleteEquipment(barCode: String): EquipmentResponse {
         val equipment = getOrThrow(barCode)
         equipmentRepository.delete(equipment)
@@ -44,16 +48,23 @@ class EquipmentServiceImpl(
         return equipmentMapper.toResponse(equipment)
     }
 
+    @Transactional(readOnly = true)
     override fun getEquipment(barCode: String): EquipmentResponse {
         return equipmentMapper.toResponse(getOrThrow(barCode))
     }
 
+    @Transactional
     override fun updateEquipment(barCode: String, equipmentRequest: EquipmentRequest): EquipmentResponse {
         val equipment = getOrThrow(barCode)
         val equipmentToSave = equipmentMapper.toModel(equipmentRequest)
         equipmentToSave.id = equipment.id
         val savedEquipment = equipmentRepository.save(equipmentToSave)
         return equipmentMapper.toResponse(savedEquipment)
+    }
+
+    @Transactional(readOnly = true)
+    override fun getEquipmentByBarcode(barcode: String): Equipment {
+        return getOrThrow(barcode)
     }
 
     private fun findEquipmentByBarCode(code: String): Optional<Equipment> {

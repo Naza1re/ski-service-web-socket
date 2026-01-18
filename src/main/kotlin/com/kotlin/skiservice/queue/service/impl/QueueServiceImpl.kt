@@ -1,6 +1,8 @@
 package com.kotlin.skiservice.queue.service.impl
 
 import com.kotlin.skiservice.entities.QueueTicket
+import com.kotlin.skiservice.entities.status.QueueTicketStatus
+import com.kotlin.skiservice.entities.status.QueueTicketStatus.IN_PROCESS
 import com.kotlin.skiservice.exception.QueueException
 import com.kotlin.skiservice.queue.dto.QueueResponse
 import com.kotlin.skiservice.queue.service.QueueService
@@ -32,7 +34,7 @@ class QueueServiceImpl(
 
         val nextTicket = getNext()
 
-        nextTicket.status = "CALLED"
+        nextTicket.status = IN_PROCESS
         ticketRepository.save(nextTicket)
 
         messagingTemplate.convertAndSend(
@@ -47,6 +49,11 @@ class QueueServiceImpl(
             current = nextTicket.ticketNumber.toString(),
             next = getNext().ticketNumber.toString()
         )
+    }
+
+    @Transactional
+    override fun deleteQueue() {
+        return ticketRepository.deleteAll()
     }
 
     private fun getNext() : QueueTicket {

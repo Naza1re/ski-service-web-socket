@@ -10,13 +10,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class GlobalExceptionHandler {
 
 
-    @ExceptionHandler(ClientNotFoundException::class, EquipmentNotFoundException::class)
+    @ExceptionHandler(ClientNotFoundException::class,
+        EquipmentNotFoundException::class,
+        RentalOrderItemNotFoundException::class,
+        EquipmentNotFoundException::class,)
     fun handleNotFoundException(e: RuntimeException): ResponseEntity<ApplicationError> {
         val errorMessage = e.localizedMessage
         return ResponseEntity(ApplicationError(errorMessage, "NOT_FOUND"), HttpStatus.NOT_FOUND)
     }
 
-    @ExceptionHandler(EquipmentAlreadyExistException::class, QueueException::class)
+    @ExceptionHandler(EquipmentAlreadyExistException::class,
+        QueueException::class)
     fun handleConflictException(e: RuntimeException): ResponseEntity<ApplicationError> {
         val errorMessage = e.localizedMessage
         return ResponseEntity(ApplicationError(errorMessage, "CONFLICT"), HttpStatus.CONFLICT)

@@ -6,5 +6,4 @@ data class ApplicationError(
     val message: String,
     val status: String,
     val date: LocalDateTime = LocalDateTime.now(),
-) {
-}
+)

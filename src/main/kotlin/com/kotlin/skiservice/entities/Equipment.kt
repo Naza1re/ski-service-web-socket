@@ -1,5 +1,6 @@
 package com.kotlin.skiservice.entities
 
+import com.kotlin.skiservice.entities.status.EquipmentStatus
 import jakarta.persistence.*
 
 @Entity
@@ -20,5 +21,6 @@ class Equipment(
     val size: String,
 
     @Column(nullable = false)
-    var status: String
+    @Enumerated(EnumType.STRING)
+    var status: EquipmentStatus? = null
 )
