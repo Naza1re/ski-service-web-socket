@@ -16,12 +16,12 @@ class EquipmentController(
 ) {
 
     @GetMapping("/{barCode}")
-    fun getEquipment(@PathVariable("barCode") barCode: String): ResponseEntity<EquipmentResponse> {
+    fun get(@PathVariable("barCode") barCode: String): ResponseEntity<EquipmentResponse> {
         return ResponseEntity.ok(equipmentService.getEquipment(barCode))
     }
 
     @GetMapping
-    fun getEquipment(page: Int, size: Int): Page<Equipment> {
+    fun get(@RequestParam("page") page: Int,@RequestParam("size") size: Int): Page<Equipment> {
         return equipmentService.getPageOfEquipment(page, size)
     }
 
@@ -36,7 +36,7 @@ class EquipmentController(
     }
 
     @PatchMapping("/{barCode}")
-    fun updateRequest(@PathVariable barCode: String,
+    fun update(@PathVariable barCode: String,
                       @RequestBody equipmentRequest: EquipmentRequest) : ResponseEntity<EquipmentResponse> {
         return ResponseEntity.ok(equipmentService.updateEquipment(barCode, equipmentRequest))
     }

@@ -2,6 +2,7 @@ package com.kotlin.skiservice.queue.controller
 
 import com.kotlin.skiservice.queue.dto.QueueResponse
 import com.kotlin.skiservice.queue.service.QueueService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -19,5 +20,11 @@ class QueueController(
     @GetMapping
     fun getQueue() : ResponseEntity<QueueResponse> {
         return ResponseEntity.ok(queueService.getQueue())
+    }
+
+    @DeleteMapping
+    fun deleteQueue() : ResponseEntity<Void> {
+        queueService.deleteQueue()
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
 }

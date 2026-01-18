@@ -11,4 +11,5 @@ interface EquipmentService {
     fun deleteEquipment(barCode: String): EquipmentResponse
     fun getEquipment(barCode: String): EquipmentResponse
     fun updateEquipment(barCode: String, equipmentRequest: EquipmentRequest): EquipmentResponse
+    fun getEquipmentByBarcode(barcode: String): Equipment
 }

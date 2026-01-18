@@ -1,5 +1,6 @@
 package com.kotlin.skiservice.entities
 
+import com.kotlin.skiservice.entities.status.QueueTicketStatus
 import jakarta.persistence.*
 
 @Entity
@@ -14,5 +15,6 @@ class QueueTicket(
     val ticketNumber: Int,
 
     @Column(nullable = false)
-    var status: String
+    @Enumerated(EnumType.STRING)
+    var status: QueueTicketStatus
 )
