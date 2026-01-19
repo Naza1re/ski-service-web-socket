@@ -1,4 +1,4 @@
 package com.kotlin.skiservice.exception
 
-class EquipmentNotFoundException(msg: String) : RuntimeException(msg) {
+class EquipmentNotFoundException(message: String) : RuntimeException(message) {
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 class EquipmentTypeServiceImpl(
     private val equipmentTypeRepository: EquipmentTypeRepository
 ) : EquipmentTypeService {
+
     override fun findEquipmentType(type: Long): EquipmentType {
         val equipmentType = equipmentTypeRepository.findById(type)
         if (equipmentType.isPresent) {

@@ -1,4 +1,4 @@
 package com.kotlin.skiservice.exception
 
-class TicketNotFoundException(msg: String) : RuntimeException(msg) {
+class TicketNotFoundException(message: String) : RuntimeException(message) {
 }

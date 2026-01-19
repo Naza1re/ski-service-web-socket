@@ -1,4 +1,4 @@
-package com.kotlin.skiservice.exception
+package com.kotlin.skiservice.exception.handler
 
 import java.time.LocalDateTime
 

@@ -8,6 +8,7 @@ import com.kotlin.skiservice.mapper.ClientMapper
 import com.kotlin.skiservice.queue.service.QueueService
 import com.kotlin.skiservice.repository.ClientRepository
 import com.kotlin.skiservice.service.ClientService
+import com.kotlin.skiservice.service.QueueTicketService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 class ClientServiceImpl(
     private val clientRepository : ClientRepository,
     private val clientMapper: ClientMapper,
-    private val queueService: QueueService,
+    private val queueTicketService: QueueTicketService
 ) : ClientService {
 
     @Transactional(readOnly = true)
@@ -26,7 +27,7 @@ class ClientServiceImpl(
 
     @Transactional
     override fun createClient(clientRequest: ClientRequest): ClientResponse {
-        val queueTicket = queueService.getByTicketNumber(clientRequest.ticketNumber)
+        val queueTicket = queueTicketService.getTicketByTicketNumber(clientRequest.ticketNumber)
         val clientToSave = clientMapper.toModel(clientRequest)
         clientToSave.queueTicket = queueTicket
         val savedClient = clientRepository.save(clientToSave)

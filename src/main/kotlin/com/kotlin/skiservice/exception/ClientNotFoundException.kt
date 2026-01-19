@@ -1,4 +1,4 @@
 package com.kotlin.skiservice.exception
 
-class ClientNotFoundException(msg: String) : RuntimeException(msg) {
+class ClientNotFoundException(message: String) : RuntimeException(message) {
 }

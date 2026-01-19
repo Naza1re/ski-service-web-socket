@@ -22,9 +22,4 @@ class QueueController(
         return ResponseEntity.ok(queueService.getQueue())
     }
 
-    @DeleteMapping
-    fun deleteQueue() : ResponseEntity<Void> {
-        queueService.deleteQueue()
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
-    }
 }
