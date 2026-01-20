@@ -25,7 +25,8 @@ class ExceptionHandler {
     @ExceptionHandler(
         EquipmentAlreadyExistException::class,
         QueueException::class,
-        EquipmentAlreadyInUseException::class)
+        EquipmentAlreadyInUseException::class,
+        TooMuchEquipmentPerOneRentalOrderException::class)
     fun handleConflictException(e: RuntimeException): ResponseEntity<ApplicationError> {
         val errorMessage = e.localizedMessage
         return ResponseEntity(ApplicationError(errorMessage, "CONFLICT"), HttpStatus.CONFLICT)

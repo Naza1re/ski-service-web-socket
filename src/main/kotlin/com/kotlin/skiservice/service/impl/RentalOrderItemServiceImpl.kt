@@ -1,5 +1,6 @@
 package com.kotlin.skiservice.service.impl
 
+import com.kotlin.skiservice.config.properties.RentalItemProperties
 import com.kotlin.skiservice.dto.rental.RentalOrderResponse
 import com.kotlin.skiservice.dto.rental.item.RentalOrderItemListResponse
 import com.kotlin.skiservice.dto.rental.item.RentalOrderItemRequest
@@ -9,6 +10,7 @@ import com.kotlin.skiservice.entities.RentalOrderItem
 import com.kotlin.skiservice.entities.status.EquipmentStatus
 import com.kotlin.skiservice.exception.EquipmentAlreadyInUseException
 import com.kotlin.skiservice.exception.RentalOrderItemNotFoundException
+import com.kotlin.skiservice.exception.TooMuchEquipmentPerOneRentalOrderException
 import com.kotlin.skiservice.mapper.RentalOrderMapper
 import com.kotlin.skiservice.repository.RentalOrderItemRepository
 import com.kotlin.skiservice.service.EquipmentService
@@ -22,14 +24,15 @@ class RentalOrderItemServiceImpl(
     private val rentalOrderItemRepository: RentalOrderItemRepository,
     private val rentalOrderService: RentalService,
     private val equipmentService: EquipmentService,
-    private val rentalOrderMapper: RentalOrderMapper
+    private val rentalOrderMapper: RentalOrderMapper,
+    private val rentalItemProperties: RentalItemProperties
 ) : RentalOrderItemService {
 
     @Transactional
     override fun addItemToRentalOrder(rentalOrderId: Long, rentalOrderItemRequest: RentalOrderItemRequest): RentalOrderResponse {
         val rentalOrder = rentalOrderService.getRentalById(rentalOrderId)
         val equipmentItem = equipmentService.getEquipmentByBarcode(rentalOrderItemRequest.barCode)
-        validateEquipment(equipmentItem)
+        validateEquipment(equipmentItem, rentalOrder.id!!)
         equipmentItem.status = EquipmentStatus.IN_USE
         val rentalOrderItem = RentalOrderItem(
             id = null,
@@ -42,7 +45,12 @@ class RentalOrderItemServiceImpl(
         return rentalOrderMapper.toResponse(newRentalOrder)
     }
 
-    private fun validateEquipment(equipment: Equipment) {
+    private fun validateEquipment(equipment: Equipment, rentalOrderId: Long) {
+
+        val rentalOrderItemsCount = rentalOrderItemRepository.findAllByRentalOrderId(rentalOrderId).count()
+        if (rentalOrderItemsCount >= rentalItemProperties.countEquipmentPerRentalOrder) {
+            throw TooMuchEquipmentPerOneRentalOrderException("Max count of equipment per one rental is ${rentalItemProperties.countEquipmentPerRentalOrder} is reached")
+        }
         if (equipment.status == EquipmentStatus.IN_USE) {
              throw EquipmentAlreadyInUseException("Equipment with bar code ${equipment.barCode} already in use.")
         }

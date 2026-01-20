@@ -12,14 +12,14 @@ class QueueController(
     private val queueService: QueueService
 ) {
 
-    @PostMapping("/next")
-    fun next() : ResponseEntity<QueueResponse> {
-        return ResponseEntity.ok(queueService.nextTicket())
+    @PostMapping("/{queue}/next")
+    fun next(@PathVariable queue: String) : ResponseEntity<QueueResponse> {
+        return ResponseEntity.ok(queueService.nextTicket(queue))
     }
 
-    @GetMapping
-    fun getQueue() : ResponseEntity<QueueResponse> {
-        return ResponseEntity.ok(queueService.getQueue())
+    @GetMapping("/{registration}")
+    fun getQueue(@PathVariable registration: String) : ResponseEntity<QueueResponse> {
+        return ResponseEntity.ok(queueService.getQueue(registration))
     }
 
 }

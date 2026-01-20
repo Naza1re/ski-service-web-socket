@@ -1,12 +1,9 @@
 package com.kotlin.skiservice.queue.service.impl
 
-import com.kotlin.skiservice.entities.QueueTicket
-import com.kotlin.skiservice.entities.status.QueueTicketStatus.IN_PROCESS
-import com.kotlin.skiservice.exception.QueueException
+import com.kotlin.skiservice.entities.status.QueueTicketStatus
 import com.kotlin.skiservice.queue.dto.QueueResponse
 import com.kotlin.skiservice.queue.service.QueueService
 import com.kotlin.skiservice.repository.TicketRepository
-import org.springframework.data.domain.PageRequest
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,46 +14,47 @@ class QueueServiceImpl(
     private val messagingTemplate: SimpMessagingTemplate
 ) : QueueService {
 
-    @Transactional(readOnly = true)
-    override fun getQueue(): QueueResponse {
-        val current = getCurrent()
-        val next = getNext()
+    private val prevStatusMap: Map<QueueTicketStatus, QueueTicketStatus> = mapOf(
+        QueueTicketStatus.REGISTRATION to QueueTicketStatus.IN_QUEUE,
+        QueueTicketStatus.RENTAL_ORDER to QueueTicketStatus.REGISTRATION,
+        QueueTicketStatus.PAYMENT to QueueTicketStatus.RENTAL_ORDER,
+        QueueTicketStatus.PROCEED to QueueTicketStatus.PAYMENT
+    )
 
-        return QueueResponse(
-            current = current.ticketNumber.toString(),
-            next = next.ticketNumber.toString()
-        )
+    @Transactional(readOnly = true)
+    override fun getQueue(queue: String): QueueResponse {
+        val currentStatus = QueueTicketStatus.fromValue(queue) ?: return QueueResponse(null,null)
+        return buildAndPublishResponse(currentStatus)
     }
 
     @Transactional
-    override fun nextTicket(): QueueResponse {
+    override fun nextTicket(queue: String): QueueResponse {
+        val currentStatus = QueueTicketStatus.fromValue(queue) ?: return QueueResponse(null,null)
 
-        val nextTicket = getNext()
+        val prevStatus = prevStatusMap[currentStatus] ?: return buildAndPublishResponse(currentStatus)
+        val ticketToMove = ticketRepository.findFirstByStatusOrderByTicketNumberAsc(prevStatus)
 
-        nextTicket.status = IN_PROCESS
-        ticketRepository.save(nextTicket)
+        ticketToMove?.let {
+            it.status = currentStatus
+            ticketRepository.save(it)
+        }
 
-        messagingTemplate.convertAndSend(
-            "/topic/queue",
-            QueueResponse(
-                current = nextTicket.ticketNumber.toString(),
-                next = getNext().ticketNumber.toString()
-            )
-        )
-
-        return QueueResponse(
-            current = nextTicket.ticketNumber.toString(),
-            next = getNext().ticketNumber.toString()
-        )
+        return buildAndPublishResponse(currentStatus)
     }
 
-    private fun getNext() : QueueTicket {
-        return ticketRepository.findNextWaitingTicket(PageRequest.of(0,1))
-            ?: throw QueueException("Queue is empty")
-    }
+    private fun buildAndPublishResponse(currentStatus: QueueTicketStatus): QueueResponse {
+        val current = ticketRepository
+            .findFirstByStatusOrderByTicketNumberDesc(currentStatus)
+            ?.ticketNumber
+            ?.toString()
 
-    private fun getCurrent() : QueueTicket {
-        return ticketRepository.findCurrentTicket((PageRequest.of(0,1)))
-            ?: throw QueueException("Current ticket not found")
+        val prevStatus = prevStatusMap[currentStatus]
+        val next = prevStatus?.let {
+            ticketRepository.findFirstByStatusOrderByTicketNumberAsc(it)?.ticketNumber?.toString()
+        }
+
+        val response = QueueResponse(current, next)
+        messagingTemplate.convertAndSend("/topic/queue/${currentStatus.value}", response)
+        return response
     }
 }

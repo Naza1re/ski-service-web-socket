@@ -20,3 +20,8 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-ss-master.xml
     enabled: true
     default-schema: ss
+
+app:
+  rental:
+    item:
+      count-equipment-per-rental-order: ${COUNT_EQUIPMENT_PER_RENTAL_ORDER:3}

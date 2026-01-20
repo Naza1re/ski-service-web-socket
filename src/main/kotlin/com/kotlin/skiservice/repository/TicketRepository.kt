@@ -1,6 +1,7 @@
 package com.kotlin.skiservice.repository
 
 import com.kotlin.skiservice.entities.QueueTicket
+import com.kotlin.skiservice.entities.status.QueueTicketStatus
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -13,11 +14,13 @@ interface TicketRepository : JpaRepository<QueueTicket, Long> {
     @Query("SELECT MAX(t.ticketNumber) FROM QueueTicket t")
     fun findMaxTicketNumber(): Int?
 
-    @Query("SELECT q FROM QueueTicket q WHERE q.status = 'IN_QUEUE' ORDER BY q.ticketNumber ASC")
-    fun findNextWaitingTicket(pageable: PageRequest): QueueTicket?
+    fun findFirstByStatusOrderByTicketNumberAsc(
+        status: QueueTicketStatus
+    ): QueueTicket?
 
-    @Query("SELECT q FROM QueueTicket q WHERE q.status = 'IN_PROCESS' ORDER BY q.ticketNumber DESC")
-    fun findCurrentTicket(pageable: PageRequest): QueueTicket?
+    fun findFirstByStatusOrderByTicketNumberDesc(
+        status: QueueTicketStatus
+    ): QueueTicket?
 
     fun findByTicketNumber(ticketNumber: Int): Optional<QueueTicket>
 }
