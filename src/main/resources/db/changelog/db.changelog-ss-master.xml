@@ -42,4 +42,15 @@
                      splitStatements="false"/>
         </changeSet>
 
+        <changeSet author="NBachishche" id="08-equipment-type-code.sql">
+            <sqlFile path="db/changelog/migrations/schema/equipment-type-code.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+    <changeSet author="NBachishche" id="09-equipment-type-data.sql" runOnChange="true">
+        <sqlFile path="db/changelog/migrations/data/equipment-type-data.sql"
+                 splitStatements="false"/>
+    </changeSet>
+
+
 </databaseChangeLog>

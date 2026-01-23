@@ -7,6 +7,8 @@ import org.mapstruct.Mapping
 
 @Mapper(componentModel = "spring")
 interface RentalOrderMapper {
+
+    @Mapping(source = "client.id", target = "clientId")
     fun toResponse(rentalOrder: RentalOrder) : RentalOrderResponse
 
 }

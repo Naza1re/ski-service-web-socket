@@ -14,6 +14,10 @@ class QueueServiceImpl(
     private val messagingTemplate: SimpMessagingTemplate
 ) : QueueService {
 
+    companion object {
+        private const val TOPIC_QUEUE = "/topic/queue/"
+    }
+
     private val prevStatusMap: Map<QueueTicketStatus, QueueTicketStatus> = mapOf(
         QueueTicketStatus.REGISTRATION to QueueTicketStatus.IN_QUEUE,
         QueueTicketStatus.RENTAL_ORDER to QueueTicketStatus.REGISTRATION,
@@ -54,7 +58,7 @@ class QueueServiceImpl(
         }
 
         val response = QueueResponse(current, next)
-        messagingTemplate.convertAndSend("/topic/queue/${currentStatus.value}", response)
+        messagingTemplate.convertAndSend(TOPIC_QUEUE + currentStatus.value, response)
         return response
     }
 }
