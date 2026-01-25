@@ -2,12 +2,14 @@ package com.kotlin.skiservice.controller
 
 import com.kotlin.skiservice.dto.auth.AuthRequest
 import com.kotlin.skiservice.service.JwtService
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -18,6 +20,7 @@ class AuthController(
     private val userDetailsService: UserDetailsService
 ) {
 
+    @Operation(summary = "Получить токен пользователя")
     @PostMapping("/login")
     fun login(@RequestBody req: AuthRequest): String {
         authenticationManager.authenticate(
@@ -27,8 +30,9 @@ class AuthController(
         return jwtService.generateToken(user)
     }
 
+    @Operation(summary = "Валидация токена")
     @PostMapping("/validate")
-    fun validateToken(@RequestBody token: String): Boolean {
+    fun validateToken(@RequestParam("token") token: String): Boolean {
         return try {
             jwtService.extractUsername(token)
             true
