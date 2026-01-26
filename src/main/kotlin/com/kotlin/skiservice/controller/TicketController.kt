@@ -5,6 +5,7 @@ import com.kotlin.skiservice.service.QueueTicketService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -19,7 +20,8 @@ class TicketController(
         return ResponseEntity.status(HttpStatus.CREATED).body(queueTicketService.getNewTicket())
     }
 
-    @Operation(summary = "Установить определенный статус, определенному номеру")
+    @Operation(summary = "Установить определенный статус, определенному номеру. Доступно для ролей (ADMIN)")
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/status/{ticketNumber}/{status}")
     fun updateQueue(@PathVariable("ticketNumber") ticketNumber : Int,
                     @PathVariable("status") status: String) : ResponseEntity<TicketResponse> {

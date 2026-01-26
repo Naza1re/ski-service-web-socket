@@ -47,10 +47,15 @@
                      splitStatements="false"/>
         </changeSet>
 
-    <changeSet author="NBachishche" id="09-equipment-type-data.sql" runOnChange="true">
-        <sqlFile path="db/changelog/migrations/data/equipment-type-data.sql"
-                 splitStatements="false"/>
-    </changeSet>
+        <changeSet author="NBachishche" id="09-equipment-type-data.sql" runOnChange="true">
+            <sqlFile path="db/changelog/migrations/data/equipment-type-data.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="10-create-user-table.sql">
+            <sqlFile path="db/changelog/migrations/schema/users.sql"
+                     splitStatements="false"/>
+        </changeSet>
 
 
 </databaseChangeLog>

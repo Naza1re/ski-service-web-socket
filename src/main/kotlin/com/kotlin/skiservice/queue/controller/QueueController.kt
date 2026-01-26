@@ -3,8 +3,8 @@ package com.kotlin.skiservice.queue.controller
 import com.kotlin.skiservice.queue.dto.QueueResponse
 import com.kotlin.skiservice.queue.service.QueueService
 import io.swagger.v3.oas.annotations.Operation
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*
 class QueueController(
     private val queueService: QueueService
 ) {
-
-    @Operation(summary = "Двинуть номер по очереди в текущую точку, текущая точка = (queue)")
+    //@PreAuthorize("hasAnyRole('REGISTRATION_MANAGER', 'ADMIN', 'RENTAL_MANAGER', 'PAYMENT_MANAGER')")
+    @Operation(summary = "Двинуть номер по очереди в текущую точку, текущая точка = (queue). Доступно для ролей (REGISTRATION_MANAGER, ADMIN, RENTAL_MANAGER, PAYMENT_MANAGER")
     @PostMapping("/{queue}/next")
     fun next(@PathVariable queue: String) : ResponseEntity<QueueResponse> {
         return ResponseEntity.ok(queueService.nextTicket(queue))
