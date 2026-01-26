@@ -14,5 +14,5 @@ class User(
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    val roles: Set<Role>
+    var roles: MutableSet<Role>
 )

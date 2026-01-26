@@ -58,14 +58,16 @@ class SecurityConfig (
             .authorizeHttpRequests {
                 it.requestMatchers(AUTH_URL).permitAll()
 
+                it.requestMatchers(CLIENT_URL).permitAll()
                 it.requestMatchers("/api/v0.1/users/**").permitAll() // Временно
+                it.requestMatchers("/api/v0.1/list/**").permitAll()
 
                 it.requestMatchers(SWAGGER_UI_URL, SWAGGER_API_URL).permitAll()
                 it.requestMatchers(QUEUE_URL).permitAll()
                 it.requestMatchers(TICKET_URL).permitAll()
                 it.requestMatchers(CLIENT_URL).permitAll()
 
-                it.requestMatchers(CLIENT_URL).permitAll()
+
                 it.requestMatchers(WEB_SOCKET).permitAll()
 
                 it.anyRequest().authenticated()

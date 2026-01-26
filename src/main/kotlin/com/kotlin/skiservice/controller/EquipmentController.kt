@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*
 class EquipmentController(
     private val equipmentService: EquipmentService
 ) {
-
     @Operation(summary = "Получить информацию по оборудованию. Доступно для ролей ('RENTAL_MANAGER, ADMIN)")
     @GetMapping("/{barCode}")
     fun get(@PathVariable("barCode") barCode: String): ResponseEntity<EquipmentResponse> {

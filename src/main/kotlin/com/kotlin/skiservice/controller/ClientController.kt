@@ -6,7 +6,6 @@ import com.kotlin.skiservice.service.ClientService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -38,4 +37,5 @@ class ClientController(
     fun update(@PathVariable("id") id: Long, clientRequest: ClientRequest) : ResponseEntity<ClientResponse> {
         return ResponseEntity.ok(clientService.updateClient(id, clientRequest))
     }
+
 }
