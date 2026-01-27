@@ -59,12 +59,16 @@ class RentalOrderItemServiceImpl(
     @Transactional
     override fun deleteRentalOrderItem(rentalOrderItemId: Long) {
         val rentalOrderItem = getOrThrow(rentalOrderItemId)
+        val equipment = rentalOrderItem.equipment
+
+        equipment.status = EquipmentStatus.NOT_IN_USE
+
         rentalOrderItemRepository.delete(rentalOrderItem)
     }
 
     @Transactional(readOnly = true)
     override fun getRentalOrderItemsByRentalOrderId(rentalOrderId: Long): RentalOrderItemListResponse {
-        rentalOrderService.getRentalById(rentalOrderId)
+        val rentalOrder = rentalOrderService.getRentalById(rentalOrderId)
         val rentalOrderItems = rentalOrderItemRepository.findAllByRentalOrderId(rentalOrderId)
 
         val rentalOrderItemList = rentalOrderItems.map { roi ->
@@ -75,6 +79,7 @@ class RentalOrderItemServiceImpl(
         }
 
         val rentalOrderListResponse = RentalOrderItemListResponse(
+            rentalOrder.client.fullName,
             rentalOrderId,
             rentalOrderItemList
         )

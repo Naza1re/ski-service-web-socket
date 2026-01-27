@@ -17,7 +17,8 @@ class ExceptionHandler {
         EquipmentTypeNotFoundException::class,
         TicketNotFoundException::class,
         UserNotFoundException::class,
-        ListNotFoundException::class)
+        ListNotFoundException::class,
+        CellNotFoundException::class)
     fun handleNotFoundException(e: RuntimeException): ResponseEntity<ApplicationError> {
         val errorMessage = e.localizedMessage
         return ResponseEntity(ApplicationError(errorMessage, "NOT_FOUND"), HttpStatus.NOT_FOUND)
@@ -28,7 +29,9 @@ class ExceptionHandler {
         QueueException::class,
         EquipmentAlreadyInUseException::class,
         TooMuchEquipmentPerOneRentalOrderException::class,
-        UserAlreadyExistException::class)
+        UserAlreadyExistException::class,
+        RentalOrderHaveEquipmentInUseException::class,
+        CellWithThisNumberAlreadyExistException::class)
     fun handleConflictException(e: RuntimeException): ResponseEntity<ApplicationError> {
         val errorMessage = e.localizedMessage
         return ResponseEntity(ApplicationError(errorMessage, "CONFLICT"), HttpStatus.CONFLICT)

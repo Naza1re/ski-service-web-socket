@@ -13,6 +13,7 @@ class Client(
     val height: Int,
     val weight: Int,
     val shoeSize: Int,
+    val phoneNumber: String,
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
