@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v0.1/equipment-types")
-@PreAuthorize("hasAnyRole('RENTAL_MANAGER', 'ADMIN')")
+//@PreAuthorize("hasAnyRole('RENTAL_MANAGER', 'ADMIN')")
 class EquipmentTypeController(
     private val equipmentTypeService: EquipmentTypeService
 ) {

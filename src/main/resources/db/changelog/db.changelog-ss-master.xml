@@ -57,5 +57,45 @@
                      splitStatements="false"/>
         </changeSet>
 
+        <changeSet author="NBachishche" id="11-add-column-phone-number.sql">
+            <sqlFile path="db/changelog/migrations/schema/client-phone.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="12-add-column-cell-number.sql">
+            <sqlFile path="db/changelog/migrations/schema/rental-order-cel-number.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="13-drop-column-cell-number.sql">
+            <sqlFile path="db/changelog/migrations/schema/rental-order-cell-number-delete.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="14-add-column-document-type.sql">
+            <sqlFile path="db/changelog/migrations/schema/rental-order-document-type.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="15-add-column-document-number.sql">
+            <sqlFile path="db/changelog/migrations/schema/rental-order-document-number.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="16-add-column-start-at.sql">
+            <sqlFile path="db/changelog/migrations/schema/rental-order-start-at.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="17-add-column-end-at.sql">
+            <sqlFile path="db/changelog/migrations/schema/rental-order-end-at.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="18-add-table-cell.sql">
+            <sqlFile path="db/changelog/migrations/schema/cell.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
 
 </databaseChangeLog>

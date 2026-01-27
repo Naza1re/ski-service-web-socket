@@ -8,7 +8,13 @@ import org.mapstruct.Mapping
 @Mapper(componentModel = "spring")
 interface RentalOrderMapper {
 
-    @Mapping(source = "client.id", target = "clientId")
+    @Mapping(source = "client.fullName", target = "clientName")
+    @Mapping(source = "client.phoneNumber", target = "clientPhoneNumber")
     fun toResponse(rentalOrder: RentalOrder) : RentalOrderResponse
+
+    @Mapping(source = "client.fullName", target = "clientName")
+    @Mapping(source = "client.phoneNumber", target = "clientPhoneNumber")
+    @Mapping(source = "cell.cellNumber", target = "help")
+    fun toEndResponse(rentalOrder: RentalOrder) : RentalOrderResponse
 
 }

@@ -21,7 +21,7 @@ class TicketController(
     }
 
     @Operation(summary = "Установить определенный статус, определенному номеру. Доступно для ролей (ADMIN)")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/status/{ticketNumber}/{status}")
     fun updateQueue(@PathVariable("ticketNumber") ticketNumber : Int,
                     @PathVariable("status") status: String) : ResponseEntity<TicketResponse> {

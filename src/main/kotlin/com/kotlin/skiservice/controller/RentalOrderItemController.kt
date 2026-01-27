@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v0.1/rental-order-items")
-@PreAuthorize("hasAnyRole('RANTAL_MANAGER', 'ADMIN')")
+//@PreAuthorize("hasAnyRole('RANTAL_MANAGER', 'ADMIN')")
 class RentalOrderItemController(
     private val rentalOrderItemService: RentalOrderItemService
 )
