@@ -25,7 +25,7 @@ class EquipmentController(
 
     @Operation(summary = "Получить список оборудования. Доступно для ролей ('RENTAL_MANAGER, ADMIN)")
     @GetMapping
-    fun get(@RequestParam("page") page: Int,@RequestParam("size") size: Int): Page<Equipment> {
+    fun get(@RequestParam("page") page: Int, @RequestParam("size") size: Int): Page<Equipment> {
         return equipmentService.getPageOfEquipment(page, size)
     }
 

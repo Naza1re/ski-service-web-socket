@@ -9,5 +9,5 @@ interface ClientService {
     fun createClient(clientRequest: ClientRequest): ClientResponse
     fun deleteClient(id: Long): ClientResponse
     fun updateClient(id: Long, clientRequest: ClientRequest): ClientResponse
-    fun getClientByTicketNumber(number : Long) : Client
+    fun getClientByTicketNumber(number : Int) : Client
 }

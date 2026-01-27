@@ -4,6 +4,7 @@ import com.kotlin.skiservice.dto.client.ClientRequest
 import com.kotlin.skiservice.dto.client.ClientResponse
 import com.kotlin.skiservice.entities.Client
 import com.kotlin.skiservice.exception.ClientNotFoundException
+import com.kotlin.skiservice.exception.ClientWithTheSameTicketAlreadyExistException
 import com.kotlin.skiservice.mapper.ClientMapper
 import com.kotlin.skiservice.queue.service.QueueService
 import com.kotlin.skiservice.repository.ClientRepository
@@ -27,6 +28,7 @@ class ClientServiceImpl(
 
     @Transactional
     override fun createClient(clientRequest: ClientRequest): ClientResponse {
+        validateCreateClient(clientRequest)
         val queueTicket = queueTicketService.getTicketByTicketNumber(clientRequest.ticketNumber)
         val clientToSave = clientMapper.toModel(clientRequest)
         clientToSave.queueTicket = queueTicket
@@ -51,12 +53,19 @@ class ClientServiceImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun getClientByTicketNumber(number: Long): Client {
+    override fun getClientByTicketNumber(number: Int): Client {
         val clientByTicket = clientRepository.findByQueueTicket(number)
         if (clientByTicket.isPresent) {
             return clientByTicket.get()
         } else {
             throw ClientNotFoundException("Client with ticket number $number not found")
+        }
+    }
+
+    private fun validateCreateClient(clientRequest: ClientRequest) {
+        val client = clientRepository.findByQueueTicket(clientRequest.ticketNumber)
+        if (client.isPresent) {
+            throw ClientWithTheSameTicketAlreadyExistException("Client with ticker number ${clientRequest.ticketNumber} already exists")
         }
     }
 

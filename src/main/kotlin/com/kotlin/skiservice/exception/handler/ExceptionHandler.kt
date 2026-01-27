@@ -31,7 +31,8 @@ class ExceptionHandler {
         TooMuchEquipmentPerOneRentalOrderException::class,
         UserAlreadyExistException::class,
         RentalOrderHaveEquipmentInUseException::class,
-        CellWithThisNumberAlreadyExistException::class)
+        CellWithThisNumberAlreadyExistException::class,
+        ClientWithTheSameTicketAlreadyExistException::class)
     fun handleConflictException(e: RuntimeException): ResponseEntity<ApplicationError> {
         val errorMessage = e.localizedMessage
         return ResponseEntity(ApplicationError(errorMessage, "CONFLICT"), HttpStatus.CONFLICT)

@@ -14,7 +14,7 @@ class Equipment(
     @Column(nullable = false, unique = true)
     val barCode: String,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "equipment_type_id", nullable = false)
     var type: EquipmentType,
 
