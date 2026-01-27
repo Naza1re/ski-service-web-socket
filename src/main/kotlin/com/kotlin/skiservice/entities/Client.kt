@@ -1,5 +1,6 @@
 package com.kotlin.skiservice.entities
 
+import com.kotlin.skiservice.entities.enums.Skill
 import jakarta.persistence.*
 
 @Entity
@@ -12,7 +13,11 @@ class Client(
     val height: Int,
     val weight: Int,
     val shoeSize: Int,
-    val skillLevel: String,
+    val phoneNumber: String,
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    val skillLevel: Skill,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "queue_ticket_id")

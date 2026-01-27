@@ -1,5 +1,6 @@
 package com.kotlin.skiservice.entities
 
+import com.kotlin.skiservice.entities.enums.DocumentType
 import com.kotlin.skiservice.entities.status.RentalOrderStatus
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -19,7 +20,24 @@ class RentalOrder(
     @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
+    @Column(name = "start_at",)
+    var startAt: LocalDateTime? = null,
+
+    @Column(name = "end_at")
+    var endAt: LocalDateTime? = null,
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cell_id")
+    var cell: Cell? = null,
+
+    @Column(name = "document_number")
+    val documentNumber: String,
+
+    @Column(name = "document_type")
+    @Enumerated(EnumType.STRING)
+    val documentType: DocumentType,
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    val status: RentalOrderStatus,
+    var status: RentalOrderStatus,
 )

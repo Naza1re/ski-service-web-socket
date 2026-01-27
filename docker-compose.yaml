@@ -8,3 +8,14 @@ services:
       POSTGRES_PASSWORD: pass
     ports:
       - '5432:5432'
+  app:
+    build: .
+    container_name: ss-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ss
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: pass
+    depends_on:
+      - postgres

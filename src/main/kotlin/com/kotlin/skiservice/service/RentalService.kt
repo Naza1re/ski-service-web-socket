@@ -10,4 +10,6 @@ interface RentalService {
     fun createRental(rentalOrderRequest: RentalOrderRequest): RentalOrderResponse
     fun deleteRental(rentalId: Long)
     fun getRentalById(rentalId: Long): RentalOrder
+    fun endRental(id: Long): RentalOrderResponse
+    fun startRental(rentalId: Long): RentalOrderResponse
 }

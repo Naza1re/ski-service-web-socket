@@ -1,0 +1,2 @@
+ALTER TABLE client
+ADD COLUMN phone_number VARCHAR(50);
