@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v0.1/equipment-types")
-//@PreAuthorize("hasAnyRole('RENTAL_MANAGER', 'ADMIN')")
+//@PreAuthorize("hasAnyRole('EQUIPMENT_MANAGER', 'ADMIN')")
 class EquipmentTypeController(
     private val equipmentTypeService: EquipmentTypeService
 ) {
 
-    @Operation(summary = "Получить тип оборудования по Id. Доступно для ролей ('RENTAL_MANAGER, ADMIN)")
+    @Operation(summary = "Получить тип оборудования по Id. Доступно для ролей ('EQUIPMENT_MANAGER, ADMIN)")
     @GetMapping("/{id}")
     fun get(@PathVariable id: Long) : ResponseEntity<EquipmentTypeResponse> {
         return ResponseEntity.ok(equipmentTypeService.findEquipmentById(id))
     }
 
-    @Operation(summary = "Получить список оборудования. Доступно для ролей ('RENTAL_MANAGER, ADMIN)")
+    @Operation(summary = "Получить список оборудования. Доступно для ролей ('EQUIPMENT_MANAGER, ADMIN)")
     @GetMapping
     fun get(@RequestParam("page") page: Int, @RequestParam("size") size: Int): ResponseEntity<Page<EquipmentType>> {
         return ResponseEntity.ok(equipmentTypeService.findAllEquipmentBy(page, size))

@@ -1,0 +1,2 @@
+ALTER TABLE rental_order
+    ADD COLUMN price NUMERIC(19,2) NOT NULL DEFAULT 0;

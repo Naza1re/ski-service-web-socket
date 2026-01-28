@@ -14,7 +14,7 @@ class TicketController(
     private val queueTicketService: QueueTicketService
 ) {
 
-    @Operation(summary = "Создать номер в очереди")
+    @Operation(summary = "Создать номер в очереди. Доступно для всех")
     @PostMapping
     fun create() : ResponseEntity<TicketResponse> {
         return ResponseEntity.status(HttpStatus.CREATED).body(queueTicketService.getNewTicket())

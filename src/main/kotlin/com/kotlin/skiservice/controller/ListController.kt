@@ -15,7 +15,7 @@ class ListController(
     private val listService: ListService
 ) {
 
-    @Operation(summary = "Получение списка элементов (выпадашки для фронта) Например: role, skill, document")
+    @Operation(summary = "Получение списка элементов (выпадашки для фронта) Например: role, skill, document. Доступен для всех ролей")
     @GetMapping("/{listName}")
     fun getList(@PathVariable("listName") listName: String) : ResponseEntity<ListItemResponse> {
         return ResponseEntity.ok(listService.getListItemsByListName(listName))

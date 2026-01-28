@@ -3,6 +3,7 @@ package com.kotlin.skiservice.entities
 import com.kotlin.skiservice.entities.enums.DocumentType
 import com.kotlin.skiservice.entities.status.RentalOrderStatus
 import jakarta.persistence.*
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Entity
@@ -29,6 +30,9 @@ class RentalOrder(
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cell_id")
     var cell: Cell? = null,
+
+    @Column(name = "price")
+    var price: BigDecimal = BigDecimal.ZERO,
 
     @Column(name = "document_number")
     val documentNumber: String,

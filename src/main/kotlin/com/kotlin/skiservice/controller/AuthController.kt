@@ -20,7 +20,7 @@ class AuthController(
     private val userDetailsService: UserDetailsService
 ) {
 
-    @Operation(summary = "Получить токен пользователя")
+    @Operation(summary = "Получить токен пользователя. Доступно для всех ролей")
     @PostMapping("/login")
     fun login(@RequestBody req: AuthRequest): String {
         authenticationManager.authenticate(
@@ -30,7 +30,7 @@ class AuthController(
         return jwtService.generateToken(user)
     }
 
-    @Operation(summary = "Валидация токена")
+    @Operation(summary = "Валидация токена. Доступно для всех ролей")
     @PostMapping("/validate")
     fun validateToken(@RequestParam("token") token: String): Boolean {
         return try {

@@ -74,6 +74,7 @@ class RentalOrderItemServiceImpl(
         val rentalOrderItemList = rentalOrderItems.map { roi ->
             RentalOrderItemResponse(
                 roi.equipment.type.name,
+                roi.equipment.type.code,
                 roi.equipment.barCode
             )
         }

@@ -67,7 +67,7 @@ class UserServiceImpl(
 
     private fun getOrThrow(userId: Long) : User {
         val user = userRepository.findById(userId)
-        if (user != null) {
+        if (user.isPresent) {
             return user.get()
         } else {
             throw UserNotFoundException("User with id $userId not found")

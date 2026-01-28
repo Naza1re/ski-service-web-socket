@@ -15,26 +15,26 @@ class CellController(
     private val cellService: CellService
 ) {
 
-    @Operation(summary = "Создать ячейку для хранения залогового документа аренды")
+    @Operation(summary = "Создать ячейку для хранения залогового документа аренды. Доступно для ролей (RENTAL_MANAGER, ADMIN)")
     @PostMapping
     fun create(@RequestBody createCellRequest: CreateCellRequest): ResponseEntity<CellResponse> {
         return ResponseEntity.ok(cellService.createCell(createCellRequest))
     }
 
-    @Operation(summary = "Получить все ячейки для хранения залогового документа аренды")
+    @Operation(summary = "Получить все ячейки для хранения залогового документа аренды. Доступно для ролей (RENTAL_MANAGER, ADMIN)")
     @GetMapping
     fun get() : ResponseEntity<CellListResponse> {
         return ResponseEntity.ok(cellService.getAllCells())
     }
 
-    @Operation(summary = "Удалить ячейку для хранения залогового документа аренды")
+    @Operation(summary = "Удалить ячейку для хранения залогового документа аренды. Доступно для ролей (RENTAL_MANAGER, ADMIN)")
     @DeleteMapping("/{cellNumber}")
     fun delete(@PathVariable("cellNumber") cellNumber : String) : ResponseEntity<Void> {
         cellService.deleteCell(cellNumber)
         return ResponseEntity.noContent().build()
     }
 
-    @Operation(summary = "Забронировать ячейку для хранения залогового документа аренды")
+    @Operation(summary = "Забронировать ячейку для хранения залогового документа аренды. Доступно для ролей (RENTAL_MANAGER, ADMIN)")
     @PutMapping("/{cellNumber}/reserve")
     fun update(@PathVariable("cellNumber") cellNumber : String) : ResponseEntity<CellResponse> {
         return ResponseEntity.ok(cellService.bookCell(cellNumber))

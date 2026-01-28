@@ -97,5 +97,34 @@
                      splitStatements="false"/>
         </changeSet>
 
+        <changeSet author="NBachishche" id="19-make-ski-pass-client-column-nullable.sql">
+            <sqlFile path="db/changelog/migrations/schema/skipass-client-nullable.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="20-make-ski-pass-valid-to-and-valid-from-column-nullable.sql">
+            <sqlFile path="db/changelog/migrations/schema/skipass-valid-from-valid-to-nullable.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="21-create-tariff-table.sql">
+            <sqlFile path="db/changelog/migrations/schema/tariff.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="22-create-tariff-equipment-type-matrix-table.sql">
+            <sqlFile path="db/changelog/migrations/schema/tariff-equipment-type-matrix.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="23-rental-order-price-column.sql">
+            <sqlFile path="db/changelog/migrations/schema/rental-order-price.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
+        <changeSet author="NBachishche" id="24-ski-pass-bar-code.sql">
+            <sqlFile path="db/changelog/migrations/schema/ski-pass-bar-code.sql"
+                     splitStatements="false"/>
+        </changeSet>
 
 </databaseChangeLog>

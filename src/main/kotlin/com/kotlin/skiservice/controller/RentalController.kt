@@ -14,7 +14,7 @@ import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/api/v0.1/rental")
-//@PreAuthorize("hasAnyRole('RANTAL_MANAGER', 'ADMIN')")
+//@PreAuthorize("hasAnyRole('RENTAL_MANAGER', 'ADMIN')")
 class RentalController(
     private val rentalService: RentalService
 ) {
@@ -25,19 +25,19 @@ class RentalController(
         return ResponseEntity.ok(rentalService.getRentalListByPage(page, size))
     }
 
+    @Operation(summary = "Получить арену по id")
+    @GetMapping("/{id}")
+    fun get(@PathVariable id: Long) : ResponseEntity<RentalOrderResponse> {
+        return ResponseEntity.ok(rentalService.getRental(id))
+    }
+
     @Operation(summary = "Создать аренду. Доступно для ролей ('RENTAL_MANAGER, ADMIN)")
     @PostMapping
     fun create(@RequestBody rentalOrderRequest: RentalOrderRequest) : ResponseEntity<RentalOrderResponse> {
         return ResponseEntity.status(HttpStatus.CREATED).body(rentalService.createRental(rentalOrderRequest))
     }
 
-    @Operation(summary = "Начать аренду")
-    @PutMapping("/{rentalId}/start")
-    fun startRental(@PathVariable rentalId: Long) : ResponseEntity<RentalOrderResponse> {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(rentalService.startRental(rentalId))
-    }
-
-    @Operation(summary = "Завершить аренду")
+    @Operation(summary = "Завершить аренду. Доступно для ролей ('RENTAL_MANAGER, ADMIN)")
     @PutMapping("/{rentalId}/end")
     fun endRental(@PathVariable rentalId: Long) : ResponseEntity<RentalOrderResponse> {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(rentalService.endRental(rentalId))
