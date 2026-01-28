@@ -20,7 +20,10 @@ class ExceptionHandler {
         ListNotFoundException::class,
         CellNotFoundException::class,
         SkiPassNotFoundException::class,
-        TariffNotFoundException::class)
+        TariffNotFoundException::class,
+        PriceCalculationException::class,
+        TariffEquipmentMatrixNotFoundException::class,
+        RentalOrderNotFoundException::class)
     fun handleNotFoundException(e: RuntimeException): ResponseEntity<ApplicationError> {
         val errorMessage = e.localizedMessage
         return ResponseEntity(ApplicationError(errorMessage, "NOT_FOUND"), HttpStatus.NOT_FOUND)
@@ -35,9 +38,13 @@ class ExceptionHandler {
         RentalOrderHaveEquipmentInUseException::class,
         CellWithThisNumberAlreadyExistException::class,
         ClientWithTheSameTicketAlreadyExistException::class,
-        SkiPassAlreadyExistException::class)
+        SkiPassAlreadyExistException::class,
+        TariffAlreadyExistException::class,
+        TariffEquipmentTypeMatrixAlreadyExist::class,
+        TariffBorderException::class)
     fun handleConflictException(e: RuntimeException): ResponseEntity<ApplicationError> {
         val errorMessage = e.localizedMessage
         return ResponseEntity(ApplicationError(errorMessage, "CONFLICT"), HttpStatus.CONFLICT)
     }
+
 }

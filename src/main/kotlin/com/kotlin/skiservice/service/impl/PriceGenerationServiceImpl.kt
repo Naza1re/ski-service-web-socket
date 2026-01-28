@@ -16,6 +16,7 @@ class PriceGenerationServiceImpl(
     private val equipmentTypeService: EquipmentTypeService,
     private val tariffEquipmentTypeMatrixRepository: TariffEquipmentTypeMatrixRepository
 ) : PriceGenerationService {
+
     override fun generatePriceForTariff(ticketNumber: Int, tariffCode: String, countHours: Int): PriceResponse {
         val tariff = tariffService.getTariffByCode(tariffCode)
 
@@ -38,7 +39,7 @@ class PriceGenerationServiceImpl(
         val countHoursInDecimal = BigDecimal.valueOf(countHours.toDouble())
 
         return PriceResponse(
-            tariffCode,
+            tariff.code,
             countHours,
             resultPrice * countHoursInDecimal,
         )

@@ -18,5 +18,5 @@ class TariffEquipmentTypeMatrix(
     val equipmentType: EquipmentType,
 
     @Column(name = "price_per_hour", nullable = false)
-    val pricePerHour: BigDecimal
+    var pricePerHour: BigDecimal
 )

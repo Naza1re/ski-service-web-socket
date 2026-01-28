@@ -7,5 +7,5 @@ import java.util.*
 
 @Repository
 interface SkiPassRepository : JpaRepository<SkiPass, Long> {
-    fun findByBarcode(barcode: String): Optional<SkiPass>
+    fun findByBarCode(barcode: String): Optional<SkiPass>
 }
