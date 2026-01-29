@@ -14,5 +14,6 @@ class EquipmentType(
     val name: String,
 
     @Column(name = "code", nullable = false)
-    val code: String
+    val code: String,
+
 )
