@@ -13,5 +13,5 @@ interface ClientRepository : JpaRepository<Client, Long> {
         SELECT c FROM Client c
         WHERE c.queueTicket.ticketNumber = :ticketNumber
     """)
-    fun findByQueueTicket(ticketNumber: Long) : Optional<Client>
+    fun findByQueueTicket(ticketNumber: Int) : Optional<Client>
 }

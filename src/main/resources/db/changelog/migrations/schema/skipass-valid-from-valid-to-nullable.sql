@@ -1,0 +1,5 @@
+ALTER TABLE skipass
+    ALTER COLUMN valid_from DROP NOT NULL;
+
+ALTER TABLE skipass
+    ALTER COLUMN valid_to DROP NOT NULL;

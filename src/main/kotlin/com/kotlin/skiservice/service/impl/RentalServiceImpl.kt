@@ -85,6 +85,7 @@ class RentalServiceImpl(
         return rentalOrderMapper.toEndResponse(savedRentalOrder)
     }
 
+    @Deprecated("Fill skiPass is start rental")
     @Transactional
     override fun startRental(rentalId: Long): RentalOrderResponse {
         val rental = getOrThrow(rentalId)
@@ -93,6 +94,19 @@ class RentalServiceImpl(
         rental.startAt = LocalDateTime.now()
 
         return rentalOrderMapper.toResponse(rental)
+    }
+
+    override fun getRentalByClientId(clientId: Long): RentalOrder {
+        val rental = rentalRepository.findByClientId(clientId)
+        if (rental.isPresent) {
+            return rental.get()
+        } else {
+            throw RentalOrderNotFoundException("Rental with client with id $clientId not found")
+        }
+    }
+
+    override fun getRental(id: Long): RentalOrderResponse {
+        return rentalOrderMapper.toResponse(getOrThrow(id))
     }
 
     private fun validateEndRentalByEquipment(equipmentList: RentalOrderItemListResponse) {
