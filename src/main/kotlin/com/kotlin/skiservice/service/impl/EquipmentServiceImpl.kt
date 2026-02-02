@@ -35,7 +35,7 @@ class EquipmentServiceImpl(
             throw EquipmentAlreadyExistException("Equipment with bar code : ${equipment.get().barCode} already exist")
         }
 
-        val equipmentType = equipmentTypeService.findEquipmentType(equipmentRequest.type)
+        val equipmentType = equipmentTypeService.findEquipmentTypeByCode(equipmentRequest.type)
 
         val equipmentToSave = Equipment(
             barCode = equipmentRequest.barCode,

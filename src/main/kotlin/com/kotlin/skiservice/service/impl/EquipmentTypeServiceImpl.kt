@@ -30,6 +30,15 @@ class EquipmentTypeServiceImpl(
         return equipmentTypeRepository.findAll(pageRequest)
     }
 
+    override fun findEquipmentTypeByCode(code: String): EquipmentType {
+        val equipmentType = equipmentTypeRepository.findByCode(code)
+        if (equipmentType.isPresent) {
+            return equipmentType.get()
+        } else {
+            throw EquipmentTypeNotFoundException("Equipment type with code $code not found")
+        }
+    }
+
     private fun getOrThrow(id : Long) : EquipmentType {
         val equipmentType = equipmentTypeRepository.findById(id)
         if (equipmentType.isPresent) {
