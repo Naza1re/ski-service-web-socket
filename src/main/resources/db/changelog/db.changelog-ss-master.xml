@@ -127,4 +127,9 @@
                      splitStatements="false"/>
         </changeSet>
 
+        <changeSet author="NBachishche" id="25-set-queue-ticket-status-size-to-50.sql">
+            <sqlFile path="db/changelog/migrations/schema/queue-ticket-status-varchar.sql"
+                     splitStatements="false"/>
+        </changeSet>
+
 </databaseChangeLog>

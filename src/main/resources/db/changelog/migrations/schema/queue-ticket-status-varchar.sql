@@ -1,0 +1,2 @@
+ALTER TABLE queue_ticket
+    ALTER COLUMN status TYPE VARCHAR(50);

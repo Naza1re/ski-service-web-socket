@@ -3,6 +3,8 @@ package com.kotlin.skiservice.service.impl
 import com.kotlin.skiservice.dto.client.ClientRequest
 import com.kotlin.skiservice.dto.client.ClientResponse
 import com.kotlin.skiservice.entities.Client
+import com.kotlin.skiservice.entities.QueueTicket
+import com.kotlin.skiservice.entities.status.QueueTicketStatus
 import com.kotlin.skiservice.exception.ClientNotFoundException
 import com.kotlin.skiservice.exception.ClientWithTheSameTicketAlreadyExistException
 import com.kotlin.skiservice.mapper.ClientMapper
@@ -31,7 +33,10 @@ class ClientServiceImpl(
         validateCreateClient(clientRequest)
         val queueTicket = queueTicketService.getTicketByTicketNumber(clientRequest.ticketNumber)
         val clientToSave = clientMapper.toModel(clientRequest)
+
         clientToSave.queueTicket = queueTicket
+        queueTicket.status = QueueTicketStatus.REGISTRATION_COMPLETED
+
         val savedClient = clientRepository.save(clientToSave)
         return clientMapper.toResponse(savedClient)
     }

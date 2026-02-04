@@ -14,4 +14,5 @@ interface RentalService {
     fun startRental(rentalId: Long): RentalOrderResponse
     fun getRentalByClientId(clientId: Long): RentalOrder
     fun getRental(id: Long): RentalOrderResponse
+    fun endEdit(rentalId: Long): RentalOrderResponse
 }

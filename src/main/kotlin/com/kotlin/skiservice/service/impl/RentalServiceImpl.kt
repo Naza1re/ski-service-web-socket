@@ -3,14 +3,17 @@ package com.kotlin.skiservice.service.impl
 import com.kotlin.skiservice.dto.rental.RentalOrderRequest
 import com.kotlin.skiservice.dto.rental.RentalOrderResponse
 import com.kotlin.skiservice.dto.rental.item.RentalOrderItemListResponse
+import com.kotlin.skiservice.entities.Client
 import com.kotlin.skiservice.entities.RentalOrder
 import com.kotlin.skiservice.entities.enums.DocumentType
 import com.kotlin.skiservice.entities.status.CellStatus
+import com.kotlin.skiservice.entities.status.QueueTicketStatus
 import com.kotlin.skiservice.entities.status.RentalOrderStatus
 import com.kotlin.skiservice.exception.RentalOrderHaveEquipmentInUseException
 import com.kotlin.skiservice.exception.RentalOrderNotFoundException
 import com.kotlin.skiservice.mapper.RentalOrderMapper
 import com.kotlin.skiservice.repository.RentalRepository
+import com.kotlin.skiservice.repository.TicketRepository
 import com.kotlin.skiservice.service.CellService
 import com.kotlin.skiservice.service.ClientService
 import com.kotlin.skiservice.service.RentalOrderItemService
@@ -18,6 +21,7 @@ import com.kotlin.skiservice.service.RentalService
 import org.springframework.context.annotation.Lazy
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -28,7 +32,8 @@ class RentalServiceImpl(
     private val clientService: ClientService,
     @Lazy private val rentalItemService: RentalOrderItemService,
     private val rentalOrderMapper: RentalOrderMapper,
-    private val cellService: CellService
+    private val cellService: CellService,
+    private val ticketRepository: TicketRepository
 ) : RentalService {
 
     @Transactional(readOnly = true)
@@ -107,6 +112,17 @@ class RentalServiceImpl(
 
     override fun getRental(id: Long): RentalOrderResponse {
         return rentalOrderMapper.toResponse(getOrThrow(id))
+    }
+
+    @Transactional
+    override fun endEdit(rentalId: Long): RentalOrderResponse {
+        val rental = getOrThrow(rentalId)
+        val client = rental.client
+
+        val ticket = client.queueTicket
+        ticket?.status = QueueTicketStatus.RENTAL_ORDER_COMPLETED
+
+        return rentalOrderMapper.toResponse(rental)
     }
 
     private fun validateEndRentalByEquipment(equipmentList: RentalOrderItemListResponse) {

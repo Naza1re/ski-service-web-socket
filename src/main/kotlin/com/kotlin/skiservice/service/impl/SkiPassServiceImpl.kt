@@ -6,6 +6,7 @@ import com.kotlin.skiservice.dto.skipass.SkiPassResponse
 import com.kotlin.skiservice.entities.RentalOrder
 import com.kotlin.skiservice.entities.SkiPass
 import com.kotlin.skiservice.entities.Tariff
+import com.kotlin.skiservice.entities.status.QueueTicketStatus
 import com.kotlin.skiservice.entities.status.RentalOrderStatus
 import com.kotlin.skiservice.exception.SkiPassAlreadyExistException
 import com.kotlin.skiservice.exception.SkiPassNotFoundException
@@ -29,7 +30,7 @@ class SkiPassServiceImpl(
     private val rentalService: RentalService,
     private val clientService: ClientService,
     private val priceGenerationService: PriceGenerationService,
-    private val rentalRepository: RentalRepository,
+    private val rentalRepository: RentalRepository
 ) : SkiPassService {
     override fun getSkiPass(page: Int, size: Int): Page<SkiPass> {
         val pageRequest = PageRequest.of(page, size)
@@ -68,6 +69,10 @@ class SkiPassServiceImpl(
         // Установка клиента к ски пасу
         val client = clientService.getClientByTicketNumber(fillSkiPassRequest.ticketNumber)
         skiPassToSave.client = client
+
+        // Установить статус для тикета в статус PAYMENT_COMPLETED
+        val ticket = client.queueTicket
+        ticket?.status = QueueTicketStatus.PROCEED
 
         // Начало аренды
         val rentalOrder = rentalService.getRentalByClientId(client.id!!)

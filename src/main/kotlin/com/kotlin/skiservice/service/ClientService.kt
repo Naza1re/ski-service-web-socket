@@ -3,6 +3,7 @@ package com.kotlin.skiservice.service
 import com.kotlin.skiservice.dto.client.ClientRequest
 import com.kotlin.skiservice.dto.client.ClientResponse
 import com.kotlin.skiservice.entities.Client
+import com.kotlin.skiservice.entities.QueueTicket
 
 interface ClientService {
     fun getClient(id: Long) : ClientResponse
