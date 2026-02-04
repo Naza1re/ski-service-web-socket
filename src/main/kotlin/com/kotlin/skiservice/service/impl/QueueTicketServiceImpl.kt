@@ -6,6 +6,8 @@ import com.kotlin.skiservice.entities.status.QueueTicketStatus
 import com.kotlin.skiservice.entities.status.QueueTicketStatus.IN_QUEUE
 import com.kotlin.skiservice.exception.TicketNotFoundException
 import com.kotlin.skiservice.mapper.QueueTicketMapper
+import com.kotlin.skiservice.queue.service.QueueService
+import com.kotlin.skiservice.queue.service.QueueSseService
 import com.kotlin.skiservice.repository.TicketRepository
 import com.kotlin.skiservice.service.QueueTicketService
 import org.springframework.stereotype.Service
@@ -15,7 +17,9 @@ import java.util.*
 @Service
 class QueueTicketServiceImpl(
     private val ticketRepository: TicketRepository,
-    private val ticketMapper: QueueTicketMapper
+    private val ticketMapper: QueueTicketMapper,
+    private val queueService: QueueService,
+    private val queueSseService: QueueSseService
 ) : QueueTicketService {
 
     @Transactional
@@ -23,6 +27,12 @@ class QueueTicketServiceImpl(
         val maxTicketNumber = ticketRepository.findMaxTicketNumber() ?: 0
         val ticket = QueueTicket(ticketNumber = maxTicketNumber + 1, status = IN_QUEUE)
         val savedTicket = ticketRepository.save(ticket)
+        val registrationStatus = QueueTicketStatus.REGISTRATION.value
+
+        // Докинуть next для клиентов у которых next = null
+        val newResponse = queueService.getQueue(registrationStatus)
+        queueSseService.send(registrationStatus, newResponse)
+
         return ticketMapper.toResponse(savedTicket)
     }
 

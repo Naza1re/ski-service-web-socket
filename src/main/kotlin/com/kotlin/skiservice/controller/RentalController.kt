@@ -37,6 +37,12 @@ class RentalController(
         return ResponseEntity.status(HttpStatus.CREATED).body(rentalService.createRental(rentalOrderRequest))
     }
 
+    @Operation(summary = "Закончить редактирование аренды")
+    @PutMapping("/end-edit/{rentalId}")
+    fun endEdit(@PathVariable rentalId: Long) : ResponseEntity<RentalOrderResponse> {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(rentalService.endEdit(rentalId))
+    }
+
     @Operation(summary = "Завершить аренду. Доступно для ролей ('RENTAL_MANAGER, ADMIN)")
     @PutMapping("/{rentalId}/end")
     fun endRental(@PathVariable rentalId: Long) : ResponseEntity<RentalOrderResponse> {
